@@ -1,13 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import User
+from employers.models import Employers
 
 # Create your models here.
 
 
 class Order(models.Model):
     tel = models.CharField(max_length=20)
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, null=True)
     items = models.ManyToManyField('Items')
-    status = models.ForeignKey('Status', default='New')
+    status = models.ForeignKey('Status')
+    user_accepted_order = models.FloatField(Employers, null=True)
+    user_who_processed_order = models.ForeignKey(Employers, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_accepted = models.DateTimeField(null=True)
     date_delivered = models.DateTimeField(null=True)
@@ -27,6 +31,8 @@ class Order(models.Model):
             'date_created': self.date_created,
             'date_accepted': self.date_accepted,
             'date_delivered': self.date_delivered,
+            'user_accepted_order': self.user_accepted_order,
+            'user_who_processed_order': self.user_accepted_order,
         }
         return dict_items
 
