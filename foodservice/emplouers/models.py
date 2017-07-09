@@ -11,6 +11,7 @@ class Employers(models.Model):
     location = models.CharField(max_length=300, null=True)
     position = models.ForeignKey('Positions')
     dismissed = models.BooleanField(default=False)
+    online = models.BooleanField(default=False)
 
     class Meta:
         db_table = 'employers'

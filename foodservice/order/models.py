@@ -6,9 +6,11 @@ from django.db import models
 class Order(models.Model):
     tel = models.CharField(max_length=20)
     name = models.CharField(max_length=30)
-    items = models.ForeignKey('Items', on_delete=models.CASCADE)
-    new = models.BooleanField(default=True)
-    order_number = models.BigIntegerField(default=1)
+    items = models.ManyToManyField('Items')
+    status = models.ForeignKey('Status', default='New')
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_accepted = models.DateTimeField(null=True)
+    date_delivered = models.DateTimeField(null=True)
 
     def __str__(self):
         return self.name
@@ -20,8 +22,11 @@ class Order(models.Model):
         dict_items = {
             'phone': self.tel,
             'name': self.name,
-            'items': self.items,
-            'number': self.order_number
+            'items': [i.as_dict() for i in self.items.all()],
+            'number': self.order_number,
+            'date_created': self.date_created,
+            'date_accepted': self.date_accepted,
+            'date_delivered': self.date_delivered,
         }
         return dict_items
 
@@ -54,3 +59,11 @@ class FoodGroup(models.Model):
 
     class Meta:
         db_table = 'food_group'
+
+
+class Status(models.Model):
+    status_name = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = 'statuses'
+
