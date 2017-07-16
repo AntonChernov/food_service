@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Employers(models.Model):
     user = models.ForeignKey(User)
     name = models.CharField(max_length=120)
-    phone = models.IntegerField(max_length=20)
+    phone = models.CharField(max_length=20)
     location = models.CharField(max_length=300, null=True)
     position = models.ForeignKey('Positions')
     dismissed = models.BooleanField(default=False)
