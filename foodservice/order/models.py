@@ -42,7 +42,7 @@ class Items(models.Model):
     item_description = models.TextField(max_length=1000)
     price = models.FloatField()
     image = models.ImageField()
-    group = models.ForeignKey(FoodGroup, null=True)
+    group = models.ForeignKey('FoodGroup', null=True)
 
     def __str__(self):
         return self.item_name
